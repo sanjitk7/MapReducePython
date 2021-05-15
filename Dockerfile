@@ -1,6 +1,6 @@
 FROM python:3
 WORKDIR /usr/src/app
-RUN mkdir temp
-COPY test.py .
-CMD [test.py]
+RUN mkdir data
+COPY map.py .
+CMD [map.py]
 ENTRYPOINT ["python3"]
