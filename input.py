@@ -1,0 +1,28 @@
+#!/usr/bin/env python3
+import sys
+import os
+def file_len(fname):
+    with open(fname) as f:
+        for i, l in enumerate(f):
+            pass
+    return i + 1
+
+chunks = int(input("Enter the number of chunks: "))
+try:
+    with open("./data/a-tale-of-two-cities.txt", encoding = 'utf-8') as mainfile:
+        # d1 = mainfile.readline()
+        line_count = file_len("./data/a-tale-of-two-cities.txt")
+        chunk_size = int(line_count/chunks)
+        for i in range(chunks):
+            chunk_str = ""
+            for j in range(chunk_size):
+                chunk_str+=mainfile.readline()  
+            with open("./data/split"+str(i+1)+ ".txt","w", encoding = "utf-8") as chunk_file:
+                chunk_file.write(chunk_str)
+            
+except IOError as e:
+    errno, strerror = e.args
+    print("I/O error({0}): {1}".format(errno,strerror))
+    # print(sys.exc_type)
+
+# print(len("string"))
