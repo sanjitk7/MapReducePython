@@ -7,7 +7,8 @@ def file_len(fname):
             pass
     return i + 1
 
-chunks = int(input("Enter the number of chunks: "))
+print(sys.argv[1])
+chunks = int(sys.argv[1])
 try:
     with open("./data/a-tale-of-two-cities.txt", encoding = 'utf-8') as mainfile:
         # d1 = mainfile.readline()
@@ -19,6 +20,7 @@ try:
                 chunk_str+=mainfile.readline()  
             with open("./data/split"+str(i+1)+ ".txt","w", encoding = "utf-8") as chunk_file:
                 chunk_file.write(chunk_str)
+    print("The data text file has been chunked into "+str(chunks)+" chunks (named spliti, 0<i<no_of_chunks")
             
 except IOError as e:
     errno, strerror = e.args
