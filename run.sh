@@ -20,5 +20,5 @@ do
     echo $i
     docker container run --entrypoint /bin/sh -itd --name $temp_name map:latest
     docker cp data/$split_str $temp_name:/usr/src/app/data/data.txt
-    docker exec -it $temp_name python3 map.py
+    docker exec -it $temp_name python3 map.py $i
 done
