@@ -1,11 +1,26 @@
 #!/usr/bin/env python3
-import re
+import sys
+output_no = sys.argv[1]
+print(output_no)
+input_file_location = "./data/data.txt"
+output_file_location = "./data/output_"
+# output_file_location = "./mapped_data/mapped_data_"
+mapped_dict = {}
 try:
-    with open("./data/data.txt", encoding = 'utf-8') as f:
+    with open(input_file_location, encoding = 'utf-8') as f:
         d = f.read()
         l = d.split(" ")
         for x in l:
-            print((x,1))
-except IOError:
-    print(IOError)
-    
+                if x not in mapped_dict:
+                    mapped_dict[x] = 1
+                else:
+                    mapped_dict[x] = mapped_dict[x] + 1
+        with open(output_file_location+str(output_no)+ ".txt","w", encoding = "utf-8") as mapped_data_file:
+            tup_view = mapped_dict.items()
+            tup_list = list(tup_view)
+            for y in tup_list:
+                mapped_data_file.write(str(y)+"\n")
+            
+                
+except IOError as e:
+    print(IOError,e)
