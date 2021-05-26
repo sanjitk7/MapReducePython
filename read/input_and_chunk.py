@@ -19,7 +19,7 @@ def input(chunks):
                 chunk_str = ""
                 for j in range(chunk_size):
                     chunk_str+=mainfile.readline()  
-                with open("../data/split"+str(i+1)+ ".txt","w", encoding = "utf-8") as chunk_file:
+                with open("../data/split_"+str(i+1)+"_"+str(chunks)+ ".txt","w", encoding = "utf-8") as chunk_file:
                     chunk_file.write(chunk_str)
         print("The data text file has been chunked into "+str(chunks)+" chunks (named spliti, 0<i<no_of_chunks)")
                 
