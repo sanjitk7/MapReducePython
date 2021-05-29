@@ -29,7 +29,7 @@ def combine():
             for j in tuples_list:
                 count+=1
                 # parse the tuple
-                print("j count:",count)
+                # print("j count:",count)
                 try:
                     j_tuple = make_tuple(j)
                 except:
@@ -40,7 +40,7 @@ def combine():
                     combined_dict[j_tuple[0]] = [j_tuple[1]]
                 else:
                     combined_dict[j_tuple[0]].append(j_tuple[1])
-    print("\ncombined: ",combined_dict,"\n")
+    # print("\ncombined: ",combined_dict,"\n")
     with open("./mapper_data/combined_data.txt","w",encoding="utf-8") as ff:
         tup_view = combined_dict.items()
         tup_list = list(tup_view)    
