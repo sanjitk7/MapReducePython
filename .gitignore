@@ -1,6 +1,5 @@
 .vscode
 .python-version
-README.md
 data
 __pycache__
 playground
