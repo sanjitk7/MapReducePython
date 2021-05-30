@@ -31,9 +31,6 @@ do
     echo $i
     echo "$PATH"
     sh ./container_run.sh $split_str $temp_name $i $chunks &
-    # docker container run --entrypoint /bin/sh -itd --mount source=mapper_data,destination=/usr/src/app/mapper_data --name $temp_name map:latest
-    # docker cp data/$split_str $temp_name:/usr/src/app/mapper_data/$split_str
-    # docker exec -it $temp_name python3 map.py $i $chunks
 done
 
 # Combine Phase
@@ -44,3 +41,20 @@ cd ..
 echo "starting combine container"
 docker container run --entrypoint /bin/sh -itd --mount source=mapper_data,destination=/usr/src/app/mapper_data --name combine_node combine:latest
 docker exec -it combine_node python3 combine.py $chunks
+
+# Reduce Phase
+cd reduce
+# sudo docker build -t reduce .
+cd ..
+
+echo "starting reduce containers"
+for (( i=1; i<=$chunks; i++ ))
+do
+	temp_name="reduce_node_$i"
+    split_str="combined_split_${i}_${chunks}.txt"
+    echo $split_str
+    echo $temp_name
+    echo $i
+    echo "$PATH"
+    sh ./container_run_2.sh $split_str $temp_name $i $chunks &
+done

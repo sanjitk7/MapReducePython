@@ -38,18 +38,14 @@ def combine():
             # print(tuples_list)
             for j in tuples_list:
                 # parse the tuple
-                # print("j:",j,type(j))
                 try:
                     j_tuple = make_tuple(j)
                 except:
                     print("**** j is **** :",j)
-                # print(j_tuple,type(j_tuple))
                 if j_tuple[0] not in combined_dict:
-                    # creates single item list in value
                     combined_dict[j_tuple[0]] = [j_tuple[1]]
                 else:
                     combined_dict[j_tuple[0]].append(j_tuple[1])
-    # print("\ncombined: ",combined_dict,"\n")
     
     # creating a list of tuples to write to reduce nodes
     tup_view = combined_dict.items()

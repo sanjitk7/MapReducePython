@@ -8,7 +8,7 @@ begin_time = datetime.datetime.now()
 output_no = sys.argv[1]
 total_chunks = sys.argv[2]
 print(output_no)
-data_location = "./mapper_data/"
+data_location = "../data/"
 input_file_path = data_location+"combined_split_"+str(output_no)+"_"+str(total_chunks)+".txt"
 # output_file_location = "./mapped_data/mapped_data_"
 reduced_dict = {}
@@ -24,13 +24,14 @@ try:
             # parse the tuple
             try:
                 j_tuple = make_tuple(j)
+                print(j_tuple)
             except:
                 pass
-            # print(j_tuple,type(j_tuple))
             # reduce logic
             tuple_reduce_sum = sum(j_tuple[1]) # total the values of the list
             reduced_dict[j_tuple[0]] = tuple_reduce_sum
-        # print("reduced_dict: ",reduced_dict)
+                
+        print("reduced_dict: ",reduced_dict)
         with open(data_location+"reduced_"+str(output_no)+"_"+str(total_chunks)+ ".txt","w", encoding = "utf-8") as reduced_data_file:
             tup_view = reduced_dict.items()
             tup_list = list(tup_view)
