@@ -4,3 +4,4 @@ README.md
 data
 __pycache__
 playground
+.DS_Store
