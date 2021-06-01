@@ -4,3 +4,4 @@ data
 __pycache__
 playground
 .DS_Store
+test.sh
