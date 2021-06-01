@@ -30,7 +30,6 @@ def combine():
     combined_dict = {}
     for i in range(total_chunks):
         input_file_path = "./mapper_data/mapped_"+str(i+1)+"_"+str(total_chunks) +".txt"
-        print("input_file_path: ",input_file_path)
         with open(input_file_path, encoding = 'utf-8') as f:
             d = f.read()
             # read each line - tuple strings
@@ -64,7 +63,7 @@ def combine():
 
 flag = False
 while not flag:
-    print("curret number of mapped text files from mapper nodes = ",count_map_output_files())
+    print("*Current Status: Number of Mapped Nodes = ",str(count_map_output_files())+"*")
     if (count_map_output_files()==total_chunks):
         combine()
         break

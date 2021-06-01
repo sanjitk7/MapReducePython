@@ -1,60 +1,75 @@
 #!/bin/sh
 
-echo "\nStarting input module...\n"
-echo "Splitting the input document into chunks to distribute to various nodes in the distributed system.\n"
-echo "Enter the number of chunks (ideally the number of nodes): "
+echo "----------------------- INITIALISING MAPREDUCE SIMULATION ---------------------\n\n"
 
+echo "ENTER THE NUMBER OF AVAILABLE NODES: "
 read chunks
+
+# RUN CHUNKING MODULE
+echo "------------- INITIALISING CHUNKING SCRIPT OF INPUT TEXT FILE -------------\n"
+
 cd orchestration
 python main.py $chunks
 cd ..
 
-# build the mapper image
+echo "------------- TERMINATING CHUNKING SCRIPT OF INPUT TEXT FILE -------------\n"
+
+# CREATE VOLUME FOR DATA USAGE
+echo "------------- CREATE VOLUME FOR DATA COMMUNICATION -------------\n"
+
+docker volume create mapper_data
+echo "----- DETAILS OF CREATED VOLUME: -----"
+# docker volume ls
+docker volume inspect mapper_data
+
+
+# MAP PHASE
+
+echo "------------- INITIALISING MAP PHASE -------------\n"
+
+# Build Map Script Image
 cd map
 # sudo docker build -t map .
 cd ..
 
-docker images
-
-docker volume create mapper_data
-docker volume ls
-docker volume inpsect mapper_data
-
-
-# Map Phase
+# Create and Run Containes in Parallel
 for (( i=1; i<=$chunks; i++ ))
 do
 	temp_name="map_node_$i"
     split_str="split_${i}_${chunks}.txt"
-    echo $split_str
-    echo $temp_name
-    echo $i
-    echo "$PATH"
+    echo "Process Creation:\nProcess Name: $temp_name\nSplitting and Mapping $split_str in Parallel\n"
     sh ./container_run.sh $split_str $temp_name $i $chunks &
 done
 
-# Combine Phase
+
+# COMBINE PHASE
+
+# Build Combine Script Image
 cd combine
 # sudo docker build -t combine .
 cd ..
 
-echo "starting combine container"
+
+echo "------------- INTERMEDIATE COMBINE PHASE INITIATION IN PARALLEL-------------\n"
 docker container run --entrypoint /bin/sh -itd --mount source=mapper_data,destination=/usr/src/app/mapper_data --name combine_node combine:latest
 docker exec -it combine_node python3 combine.py $chunks
 
-# Reduce Phase
+echo "------------- MAP AND COMBINE PHASE TERMINATION -------------\n"
+
+
+# REDUCE PHASE
 cd reduce
 # sudo docker build -t reduce .
 cd ..
 
-echo "starting reduce containers"
+echo "------------- REDUCE PHASE INITIATION -------------\n"
 for (( i=1; i<=$chunks; i++ ))
 do
 	temp_name="reduce_node_$i"
     split_str="combined_split_${i}_${chunks}.txt"
-    echo $split_str
-    echo $temp_name
-    echo $i
-    echo "$PATH"
+    echo "Process Creation:\nProcess Name: $temp_name\nReducing and Computing: $split_str in Parallel\n"
     sh ./container_run_2.sh $split_str $temp_name $i $chunks &
 done
+
+wait
+echo "------------- REDUCE PHASE TERMINATION -------------\n"

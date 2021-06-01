@@ -37,7 +37,7 @@ try:
             for y in tup_list:
                 reduced_data_file.write(str(y)+"\n")
     end_time = datetime.datetime.now()
-    print("Computation Time - split_"+str(output_no)+"_"+str(total_chunks)+ ".txt = "+str(end_time-begin_time))
+    print("COMPUTATION TIME: REDUCE NODE "+str(output_no)+" = "+str(end_time-begin_time))
                 
 except IOError as e:
     print(IOError,e)
