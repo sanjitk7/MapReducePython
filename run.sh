@@ -1,3 +1,5 @@
+START_TIME=$(ruby -e 'puts (Time.now.to_f * 1000).to_i')
+
 #!/bin/sh
 
 echo "----------------------- INITIALISING MAPREDUCE SIMULATION ---------------------\n\n"
@@ -73,3 +75,9 @@ done
 
 wait
 echo "------------- REDUCE PHASE TERMINATION -------------\n"
+
+
+# COMPUTATION TIME CALC
+END_TIME=$(ruby -e 'puts (Time.now.to_f * 1000).to_i')
+COMP_TIME=$((end_ms - start_ms))
+echo "****TOTAL COMPUTATION TIME OF THE ALGORITHM: $COMP_TIME s **** "
